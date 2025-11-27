@@ -1,0 +1,21 @@
+# Deep Learning & Neural Networks
+tensorflow
+keras
+
+# Data Manipulation & Math
+numpy
+pandas
+
+# Image Processing
+Pillow
+opencv-python
+
+# Visualization (EDA & Training History)
+matplotlib
+seaborn
+
+# Machine Learning Utilities (Metrics, Split)
+scikit-learn
+
+# Web Interface (Demo)
+streamlit
