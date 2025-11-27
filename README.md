@@ -3,13 +3,13 @@
 **Student:** Dobrisan Andrei George
 **Data:** 2025.11.20  
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Introducere
 
 Acest document descrie activitățile realizate în **Etapa 3**, în care se analizează și se preprocesează setul de date necesar proiectului „AutoDataAI". Scopul etapei este pregătirea corectă a datelor pentru instruirea modelului RN, respectând bunele practici privind calitatea, consistența și reproductibilitatea datelor.
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ##  1. Structura Repository-ului Github (versiunea Etapei 3)
 
@@ -29,145 +29,116 @@ AutoDataAI/
 │   ├── data_acquisition/  # generare / achiziție date (dacă există)
 │   └── neural_network/    # implementarea RN (în etapa următoare)
 ├── config/                # fișiere de configurare
-└── requirements.txt       # dependențe Python (dacă aplicabil)
+└── requirements.txt       # dependențe Python
 ```
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ##  2. Descrierea Setului de Date
 
 ### 2.1 Sursa datelor
 
-* **Origine:** Set de imagini propriu (colectare manuală/simulată)
-* **Modul de achiziție:** Senzori reali (cameră smartphone) / Fișier extern
-* **Perioada / condițiile colectării:** Colectare în Noiembrie 2025; Imagini sub diverse condiții de lumină, unghiuri și claritate, pentru a simula utilizarea reală.
-
--------------------------------------------------------------------------------------------------------------------------------------
+* **Origine:** Set de date public (Kaggle - Car Damage Assessment)
+* **Modul de achiziție:** Fișier extern (Descărcare)
+* **Perioada / condițiile colectării:** Colecție de imagini sub diverse condiții de iluminare și unghiuri, reprezentând daune în lumea reală.
 
 ### 2.2 Caracteristicile dataset-ului
 
-* **Număr total de observații:** $\approx 150-200 Imagini (fotografii de talon).
-* **Număr de caracteristici (features):** aprox 10
+* **Număr total de observații:**  ≈1500 Imagini.
+* **Număr de caracteristici (features):** Imagini RGB (224×224×3 pixeli)
 * **Tipuri de date:**  Imagini
 * **Format fișiere:**  PNG / JPEG
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### 2.3 Descrierea fiecărei caracteristici
 
-| Caracteristică (Clasă)    | Descriere                                             | Domeniu valori                      |
-|---------------------------|-------------------------------------------------------|-------------------------------------|
-| E_VIN                     | Seria de Șasiu (Vehicle Identification Number)        | Alfanumeric (17 caractere)          |
-| A_NR_INMATRICULARE        | Numărul de înmatriculare                              | Alfanumeric                         |
-| B_DATA_INMATRICULARE      | Data primei înmatriculări                             | Dată (ZZ.LL.AAAA)                   |
-| D1_MARCA                  | Marca vehiculului                                     | Text                                |
-| D3_DENUMIRE_COMERCIALA    | Denumirea comercială (Modelul)                        | Text                                |
-| C1_NUME                   | Numele deținătorului (Proprietar/Utilizator)          | Text                                |
-| C1_PRENUME                | Prenumele deținătorului                               | Text                                |
-| C1_ADRESA                 | Adresa de reședință a deținătorului                   | Alfanumeric                         |
-| F1_MASA_MAXIMA            | Masa maximă totală autorizată                         | Numeric (kg)                        |
-| G_MASA_NEINCARCATA        | Masa proprie a vehiculului (neîncărcat)               | Numeric (kg)                        |
-| P1_CAPACITATE_CIL.        | Capacitatea cilindrică a motorului                    | Numeric (cm³)                       |
-| P2_PUTERE                 | Puterea netă maximă                                   | Numeric (kW)                        |
-| P3_TIP_COMBUSTIBIL        | Tipul de combustibil                                  | Text/Literal                        |
-| V9_NORMA_POLUARE          | Norma de poluare (ex: Euro 6)                         | Text/Literal                        |
-| S1_NUMAR_LOCURI           | Numărul de locuri pe scaune                           | Numeric                             |
-| X.1_DATA_ITP              | Data de expirare a ITP                                | Dată (ZZ.LL.AAAA)                   |
-| H_PERIOADA_VALIDITATE     | Perioada de valabilitate a înmatriculării             | Dată (ZZ.LL.AAAA)                   |
-| J_CATEGORIA_CE            | Categoria vehiculului conform legislației CE          | Text/Literal                        |
-| K_NR_OMOLOGARE            | Numărul omologării de tip                             | Alfanumeric                         |
-| I_DATA_INMATR_UE          | Data înmatriculării în UE                             | Dată (ZZ.LL.AAAA)                   |
-| Q_RAPORT_PUTERE_MASA      | Raport putere/masă                                    | Numeric                             |
-| T_VITEZA_MAXIMA           | Viteza maximă                                         | Numeric                             |
-| U1/U2_NIVEL_SONOR         | Nivelul sonor (staționare / mers)                     | Numeric                             |
+## Caracteristicile Damage Detection
 
-**Tip:** Obiect
-**Format:** Bounding Box
+| Caracteristică (Clasă) | Descriere                                                | Domeniu valori           |
+|------------------------|----------------------------------------------------------|---------------------------|
+| **No_Damage**          | Vehiculul nu prezintă daune vizibile.                    | Clasificare (0 sau 1)     |
+| **Minor_Damage**       | Daune superficiale (zgârieturi ușoare, îndoituri mici).  | Clasificare (0 sau 1)     |
+| **Major_Damage**       | Daune semnificative (elemente structurale afectate).     | Clasificare (0 sau 1)     |
 
-----------------------------------------------------------------------------------------------------------------------------------
+**Tip:** Categorial (Clasificare)
+**Format:** One-Hot Encoding (la ieșirea RN)
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Fișier recomandat:**  `data/README.md`
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ##  3. Analiza Exploratorie a Datelor (EDA) – Sintetic
 
 ### 3.1 Statistici descriptive aplicate
 
-* **Medie, mediană, deviație standard**
-* **Min–max și quartile**
-* **Distribuții pe caracteristici** (histograme)
-* **Identificarea outlierilor** (IQR / percentile)
+* **Distribuția pe clase:** Numărul exact de imagini în fiecare clasă (Ex: Major_Damage vs. No_Damage) pentru a identifica dezechilibrele.
+* **Dimensiunea imaginilor:** Verificarea rezoluției medii și a raportului de aspect (aspect ratio) al imaginilor brute.
+* **Verificarea imaginilor corupte:** Identificarea fișierelor care nu pot fi deschise sau nu au extensia corectă.
 
 ### 3.2 Analiza calității datelor
 
-* **Detectarea valorilor lipsă** (% pe coloană)
-* **Detectarea valorilor inconsistente sau eronate**
-* **Identificarea caracteristicilor redundante sau puternic corelate**
+* **Consistența claselor:** Verificarea manuală a unui eșantion aleatoriu din fiecare folder pentru a asigura că etichetele corespund daunei vizuale.
+* **Detectarea imaginilor inutilizabile:** Eliminarea imaginilor extrem de neclare (blur), întunecate sau care nu conțin mașini.
 
 ### 3.3 Probleme identificate
 
-* [exemplu] Feature X are 8% valori lipsă
-* [exemplu] Distribuția feature Y este puternic neuniformă
-* [exemplu] Variabilitate ridicată în clase (class imbalance)
+* **Dezechilibru de clasă (Class Imbalance):** Clasa "Daună Majoră" are semnificativ mai puține imagini decât "Fără Daună", ceea ce poate duce la un model părtinitor.
+* **Variație coloristică:** Imaginile provin din surse diverse, având balanțe de alb și expuneri foarte diferite.
+* **Variație de încadrare:** Unele imagini sunt prim-planuri (macro) ale zgârieturii, altele sunt cadre largi cu toată mașina.
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-##  4. Preprocesarea Datelor
+## 4. Preprocesarea Datelor
 
 ### 4.1 Curățarea datelor
 
-* **Eliminare duplicatelor**
-* **Tratarea valorilor lipsă:**
-  * Feature A: imputare cu mediană
-  * Feature B: eliminare (30% valori lipsă)
-* **Tratarea outlierilor:** IQR / limitare percentile
+- **Eliminarea duplicatelor:** Utilizarea hash-urilor pentru identificarea și ștergerea imaginilor identice.  
+- **Standardizarea rezoluției:** Redimensionarea tuturor imaginilor la rezoluția de intrare MobileNetV2 (224×224 pixeli), folosind interpolare bicubică.
 
 ### 4.2 Transformarea caracteristicilor
 
-* **Normalizare:** Min–Max / Standardizare
-* **Encoding pentru variabile categoriale**
-* **Ajustarea dezechilibrului de clasă** (dacă este cazul)
-* **Augmentare Geometrică: Aplicarea de rotații, translații și zoom-uri aleatorii în timpul antrenării pentru a crește diversitatea setului de date.**
-* **Augmentare Cromatică: Ajustarea dinamică a luminozității și contrastului (în Python/OpenCV) pentru a face modelul robust la diferite condiții de iluminare.**
+- **Normalizare pixeli:** Scalarea valorilor din intervalul [0, 255] în [−1, 1] sau [0, 1], conform cerințelor MobileNetV2.  
+- **Augmentare geometrică:** Rotații mici (±10°), zoom (0.2) și inversare orizontală (horizontal flip) aplicate în timpul antrenării.  
+- **Augmentare cromatică:** Ajustarea luminozității și contrastului pentru a simula diverse condiții de iluminare.
 
 ### 4.3 Structurarea seturilor de date
 
-**Împărțire recomandată:**
-* 70–80% – train
-* 10–15% – validation
-* 10–15% – test
+- **Împărțire recomandată:**
+  - 70% – train  
+  - 15% – validation  
+  - 15% – test  
 
-**Principii respectate:**
-* Stratificare pentru clasificare
-* Fără scurgere de informație (data leakage)
-* Statistici calculate DOAR pe train și aplicate pe celelalte seturi
-* Organizare YOLO: Seturile sunt organizate în foldere separate, conținând atât imaginile, cât și fișierele de adnotare (.txt).
+- **Principii respectate:**
+  - **Stratificare:** Menținerea proporției claselor în toate seturile.  
+  - **Fără scurgere de informație (Data Leakage):** Imaginile de test sunt complet izolate și nu sunt utilizate la augmentare.  
+  - **Organizare directoare:** Folosirea structurii standard *ImageFolder* (`train/class_name/image.jpg`).
 
 ### 4.4 Salvarea rezultatelor preprocesării
 
-* Date preprocesate în `data/processed/`
-* Seturi train/val/test în foldere dedicate
-* Parametrii de preprocesare în `config/preprocessing_config.*` (opțional)
+- **Date preprocesate:** Stocate on-the-fly în memorie sau salvate în `data/processed/` dacă spațiul permite.  
+- **Seturi train/val/test:** Organizate fizic în foldere dedicate.  
+- **Configurare:** Parametrii de augmentare salvați în `config/preprocessing_config.yaml`.
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-##  5. Fișiere Generate în Această Etapă
+## 5. Fișiere Generate în Această Etapă
 
-* `data/raw/` – date brute
-* `data/processed/` – date curățate & transformate
-* `data/train/`, `data/validation/`, `data/test/` – seturi finale
-* `src/preprocessing/` – codul de preprocesare
-* `data/README.md` – descrierea dataset-ului
+* `data/raw/` – date brute (Imaginile originale descărcate de pe Kaggle).
+* `data/processed/` – date curățate & transformate (Imagini redimensionate la 224x224 și normalizate).
+* `data/train/`, `data/validation/`, `data/test/` – seturi finale organizate pe clase.
+* `src/preprocessing/` – codul de preprocesare (scripturi Python pentru augmentare și split).
+* `data/README.md` – descrierea detaliată a dataset-ului (distribuție clase, sursă).
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ##  6. Stare Etapă (de completat de student)
 
-- [ ] Structură repository configurată
-- [ ] Dataset analizat (EDA realizată)
+- [x] Structură repository configurată
+- [x] Dataset analizat (EDA realizată)
 - [ ] Date preprocesate
 - [ ] Seturi train/val/test generate
 - [ ] Documentație actualizată în README + `data/README.md`
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
