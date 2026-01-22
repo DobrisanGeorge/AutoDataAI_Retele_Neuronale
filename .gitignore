@@ -1,0 +1,84 @@
+# Image data directories
+data/raw/bumper_dent/
+data/raw/bumper_scratch/
+data/raw/door_dent/
+data/raw/door_scratch/
+data/raw/glass_shatter/
+data/raw/head_lamp/
+data/raw/tail_lamp/
+data/raw/unknown/
+data/raw/images/
+
+data/train/bumper_dent/
+data/train/bumper_scratch/
+data/train/door_dent/
+data/train/door_scratch/
+data/train/glass_shatter/
+data/train/head_lamp/
+data/train/tail_lamp/
+data/train/unknown/
+
+data/test/bumper_dent/
+data/test/bumper_scratch/
+data/test/door_dent/
+data/test/door_scratch/
+data/test/glass_shatter/
+data/test/head_lamp/
+data/test/tail_lamp/
+data/test/unknown/
+
+data/validation/bumper_dent/
+data/validation/bumper_scratch/
+data/validation/door_dent/
+data/validation/door_scratch/
+data/validation/glass_shatter/
+data/validation/head_lamp/
+data/validation/tail_lamp/
+data/validation/unknown/
+
+# Large model files
+models/damage_model.h5
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data processing
+data/processed/

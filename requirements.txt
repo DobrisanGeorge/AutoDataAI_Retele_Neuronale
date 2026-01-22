@@ -1,6 +1,7 @@
 # Deep Learning & Neural Networks
 tensorflow
 keras
+scikit-learn
 
 # Data Manipulation & Math
 numpy
