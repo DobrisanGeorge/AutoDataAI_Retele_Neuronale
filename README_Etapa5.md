@@ -3,7 +3,7 @@
 **Disciplina:** Rețele Neuronale
 **Instituție:** POLITEHNICA București – FIIR
 **Student:** Dobrisan Andrei George
-**Link Repository GitHub:** [Adaugă Link-ul Tău Aici]
+**Link Repository GitHub:** https://github.com/DobrisanGeorge/Car-Damage-Assessment-Retele-Neuronale
 **Data predării:** 11.12.2025
 
 ---

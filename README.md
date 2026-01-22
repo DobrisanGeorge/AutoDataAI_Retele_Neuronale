@@ -137,9 +137,9 @@ CarVisionAI/
 
 - [x] Structură repository configurată
 - [x] Dataset analizat (EDA realizată)
-- [ ] Date preprocesate
-- [ ] Seturi train/val/test generate
-- [ ] Documentație actualizată în README + `data/README.md`
+- [x] Date preprocesate
+- [x] Seturi train/val/test generate
+- [x] Documentație actualizată în README + `data/README.md`
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

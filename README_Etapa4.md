@@ -6,7 +6,7 @@
 - **Instituție:** Universitatea POLITEHNICA din București – FIIR  
 - **Student:** Dobrisan Andrei George  
 - **Tema proiect:** Clasificare a Daunelor de Caroserie Auto folosind MobileNetV2  
-- **Link Repository GitHub:** https://github.com/DobrisanGeorge/Car-Damage-Assessment-Retele-Neuronale  
+- **Link Repository GitHub:** https://github.com/DobrisanGeorge/Car-Damage-Assessment-Retele-Neuronale
 - **Data:** 04.12.2025  
 
 ---

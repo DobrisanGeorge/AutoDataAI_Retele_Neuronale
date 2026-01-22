@@ -1,0 +1,6 @@
+{
+    "model_name": "optimized_model.h5",
+    "test_accuracy": 0.9466,
+    "test_loss": 0.0401,
+    "best_experiment": "Exp4_Final"
+}
